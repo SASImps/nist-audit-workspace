@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "Control": {
+      "title": "Control",
+      "description": "A NIST CSF 2.0 control assessment entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "category": { "type": "string" },
+        "requirement": { "type": "string" },
+        "evidence": { "type": "string" },
+        "remediation": { "type": "string" },
+        "score": { "type": "number" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" },
+        "mapping": {
+          "type": "object",
+          "properties": {
+            "iso27001": { "type": "string" },
+            "gdpr": { "type": "string" },
+            "essential8": { "type": "string" }
+          }
+        }
+      },
+      "required": ["id", "category", "requirement", "score", "status"]
+    },
+    "Assessment": {
+      "title": "Assessment",
+      "description": "A complete NIST CSF 2.0 assessment snapshot",
+      "type": "object",
+      "properties": {
+        "analyst": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "controls": {
+          "type": "array",
+          "items": { "$ref": "#/entities/Control" }
+        },
+        "version": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["analyst", "timestamp", "controls", "userId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/assessments/{assessmentId}": {
+      "schema": "Assessment",
+      "description": "User-owned NIST CSF assessment records"
+    },
+    "/users/{userId}": {
+      "schema": "object",
+      "description": "User profile or metadata if needed"
+    }
+  }
+}

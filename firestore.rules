@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // --- Validation Blueprints ---
+    function isValidControl(control) {
+      return control.id is string && control.id.size() <= 50 &&
+             control.category is string && control.category.size() <= 20 &&
+             control.requirement is string && control.requirement.size() <= 2000 &&
+             control.score is number && control.score >= 0 && control.score <= 5 &&
+             control.status is string && control.status.size() <= 20;
+    }
+
+    function isValidAssessment(data) {
+      return data.analyst is string && data.analyst.size() <= 100 &&
+             data.timestamp is string && // Simplified format check
+             data.controls is list && data.controls.size() <= 200 &&
+             data.userId == request.auth.uid &&
+             // Field presence checks
+             data.keys().hasAll(['analyst', 'timestamp', 'controls', 'userId', 'version']) &&
+             data.keys().size() == 5;
+    }
+
+    // --- Rules ---
+    match /users/{userId} {
+      allow read, write: if isOwner(userId) && isValidId(userId);
+
+      match /assessments/{assessmentId} {
+        allow read, list: if isOwner(userId);
+        
+        allow create: if isOwner(userId) && 
+                      isValidId(assessmentId) && 
+                      isValidAssessment(incoming());
+
+        allow update: if isOwner(userId) && 
+                      isValidAssessment(incoming()) &&
+                      incoming().diff(resource.data).affectedKeys().hasOnly(['controls', 'timestamp', 'analyst']);
+
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}
