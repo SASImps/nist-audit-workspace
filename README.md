@@ -1,41 +1,46 @@
-# NIST Audit Workspace
+# NIST CSF 2.0 Cybersecurity Self-Assessment Template
 
-A professional-grade cybersecurity compliance and audit management platform designed to streamline NIST CSF 2.0 assessments.
+A professional, high-integrity cybersecurity compliance toolkit designed to measure, communicate, and improve security posture based on the authoritative NIST CSF 2.0 framework (released February 2024).
 
-## Core Purpose
+![NIST CSF 2.0 Auditor Dashboard](./dashboard_preview.png)
 
-The **NIST Audit Workspace** empowers security analysts to perform rigorous, evidence-based security audits. It bridges the gap between high-level framework requirements and technical implementation, providing a centralized "Vault" for evidence, remediation planning, and real-time maturity scoring.
+## 🚀 The Workspace Structure
 
-## Key Features
+The auditor is divided into five specialized tabs to guide you through a complete assessment lifecycle:
 
-- **NIST CSF 2.0 Mapping**: Pre-configured with major NIST categories including Governance, Identification, Protection, Detection, Response, and Recovery.
-- **Radar Maturity Visualization**: Instant visual feedback on organizational security posture across five critical domains.
-- **Evidence Vault**: Secure local and cloud persistence (via Firestore) for audit snapshots, allowing for temporal analysis of security improvements.
-- **Cross-Framework Alignment**: Integrated mapping to global standards like ISO 27001, GDPR, and the Essential 8.
-- **Remediation Roadmap**: Automatically identifies critical gaps (scores below 2.0) and helps define clear remediation pathways.
-- **Data Portability**: Full Excel/CSV export capabilities for snapshot sharing and regulatory reporting.
-- **Premium Aesthetics**: A custom-crafted "Navy & Gold" interface designed for high-stakes corporate environments.
+### **Tab 1 — Cover**
+The mission control center. Define your organization's metadata, analyst team, and target maturity goals. Features a high-contrast dark navy theme with a built-in **Maturity Scale Legend** (1-5) explaining the lifecycle from *Initial* to *Optimizing*.
 
-## Technical Stack
+### **Tab 2 — Assessment**
+The scoring engine. Contains 62 rows representing every NIST CSF 2.0 subcategory. 
+- **Color-Coded Functions**: Govern (Purple), Identify (Blue), Protect (Green), Detect (Amber), Respond (Red), and Recover (Pink).
+- **Live Scoring**: Enter scores (1-5) to see automatic gap calculations against your defined targets.
+- **Evidence Persistence**: Native fields for documenting notes and remediation actions per control.
 
-- **Frontend**: React 18, TypeScript, Vite
-- **Styling**: Tailwind CSS + Motion (for fluid lifecycle animations)
-- **Database**: Firebase/Firestore (Cloud Evidence Persistence)
-- **Charts**: Recharts (Security Radar Charting)
+### **Tab 3 — Dashboard**
+The executive summary. Features six high-fidelity scorecards calculating function-specific maturity. The centerpiece is a **Dynamic Radar Chart** comparing *Current* vs. *Target* posture—perfect for stakeholders and board-level reporting.
 
-## Security & Configuration
+### **Tab 4 — Gap Analysis**
+Your remediation roadmap. This tab automatically surfaces critical control failures where current scores fall below targets. It isolates what needs to be fixed and in what order, creating a clear pathway to security compliance.
 
-To prevent sensitive API keys from being exposed in Version Control:
-1.  Add your Firebase credentials to your environment variables (using the `VITE_FIREBASE_*` prefix as defined in `.env.example`).
-2.  The application will automatically use these environment variables if present.
-3.  Ensure `firebase-applet-config.json` is added to your `.gitignore`.
+### **Tab 5 — Reference Guide**
+The authoritative cheat sheet. Contains the full descriptions for all 62 subcategories in plain English, sourced directly from the NIST CSF 2.0 publication. Use this to ensure scoring accuracy and framework alignment.
 
-## Getting Started
+## 🛠 Technical Stack
 
-1. **Authenticate**: Log in via the Governance tab to enable Cloud persistence.
-2. **Assess**: Navigate to the Assessment Workbook to score controls from 0 (Non-existent) to 5 (Optimized).
-3. **Evidence**: Attach evidence links and documentation notes in the Control Insights drawer.
-4. **Snapshot**: Push snapshots to the Vault to secure your current audit state.
+- **Framework**: React 18 / TypeScript / Vite
+- **Animations**: Motion (Framer) for state transitions
+- **Visualization**: Recharts (Custom Radar implementation)
+- **Styling**: Tailwind CSS (Navy & Sky Blue specialized theme)
+- **Persistence**: Local Protocol + Firebase Integration (Optional)
+
+## 📖 How to Use
+
+1. **Setup**: Open the **Cover** tab and enter your organizational details.
+2. **Score**: Navigate to **Assessment**. Audit each subcategory by entering a score of 1-5 guided by the **Reference Guide**.
+3. **Analyze**: Review the **Dashboard** to visualize organizational strengths and weaknesses.
+4. **Remediate**: Use the **Gap Analysis** tab to build your security improvement roadmap.
+5. **Export**: Use the download tool to export your assessment as a JSON payload for record-keeping.
 
 ---
-*Built with precision for the modern security frontier.*
+*Empowering organizations with high-integrity cybersecurity reporting.*
